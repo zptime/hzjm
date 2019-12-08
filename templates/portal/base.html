@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <title>湖北省教育资源公共服务平台</title>
+    <link rel="stylesheet" href="/static/layer/skin/default/layer.css" />
+    <script>document.write( " <link rel='stylesheet' href='/static/portal/css/portal.css?rnd= " + Math.random() + " '>" );</script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?514afae4d9fd6502c7d5def5c9760549";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo fl">
+                <a href="/"><img src="/static/portal/img/logo.png"></a>
+            </div>
+            <div class="title fl">
+                <a class="expert-title" href="/page/hzjm/expert" target="_self">专家介绍</a>
+{#                <a>关于汉字解密</a>#}
+            </div>
+            <div class="search fr">
+                <input id="searchInput" type="text" placeholder="搜索节目名称，专家名称">
+                <img id="searchBtn" src="/static/portal/img/search.png" alt="搜索">
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="line"></div>
+    </div>
+
+    <div class="content">
+        <!--主体内容开始-->
+        {% block content %}
+        {% endblock %}
+        <!--主体内容结束-->
+    </div>
+
+    <div class="footer">
+        <div class="foot-content">
+            <div class="info fl">
+                <p>
+{#                    <a class="link_about">关于汉字解密</a>#}
+{#                    <a class="link_help" href="http://help.hbeducloud.com" target="_blank">帮助中心</a>#}
+                    <a class="link_manage" href="/page/manage/home" target="_blank">后台管理</a>
+                </p>
+                <p>版权所有：湖北省教育资源公共服务平台</p>
+                <p>武汉烽火信息集成技术有限公司 承建 鄂ICP备05010814号-3</p>
+                <p>运营支持：武汉烽火立云网络科技有限公司</p>
+                <p>地址：湖北省武汉市武昌区洪山路2号　邮编：430071</p>
+            </div>
+            <div class="HZcode fr">
+                <div>汉字解密微信公众号：hbsjyt</div>
+            </div>
+            <div class="QRcode fr">
+                <img src="/static/portal/img/hzjm.png" alt="汉字解密微信公众号">
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/contrib/js/jquery.min.js"></script>
+    <script src="/static/contrib/js/jquery.mb.browser.min.js"></script>
+    <script src="/static/contrib/js/vue.js"></script>
+    <script src="/static/layer/layer.js"></script>
+    <script>document.write( " <script src='/static/manage/js/util.js?rnd= " + Math.random() + " '></s" + "cript> " );</script>
+    <script>document.write( " <script src='/static/portal/js/base.js?rnd= " + Math.random() + " '></s" + "cript> " );</script>
+    {% block js %}
+    {% endblock %}
+</body>
+</html>

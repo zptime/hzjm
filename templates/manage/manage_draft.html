@@ -1,0 +1,108 @@
+{% extends "manage/base.html" %}
+{% block css %}
+    {{ form.media }}
+    <link rel="stylesheet" href="/static/contrib/css/jquery.searchableSelect.css">
+{% endblock %}
+{% block content %}
+    <div class="hide" id="article_id">{{ article_id }}</div>
+    <div class="main-content">
+        {% verbatim %}
+        <div id="main" v-cloak>
+            <div class="content">
+                <div class="content_head">
+                    <span v-if="detail.id===''">新增节目</span>
+                    <span v-else>修改节目</span>
+                </div>
+                <div class="warning">
+                    视频仅支持mp4格式，非mp4格式视频请先使用格式转换工具进行转换再上传！
+                    <div class="fr">
+                        <a href="/media/tool/FormatFactory_setup.exe">格式转换工具</a> |
+                        <a href="/media/tool/格式工厂使用教程.pdf" download="帮助手册">帮助手册</a>
+                    </div>
+                </div>
+                <div class="content_body">
+                    <form enctype="multipart/form-data" id="dataForm">
+                        <div class="content_line">
+                            <div class="label">标题<div class="require fr">*</div></div>
+                            <input type="text" name="title" v-model="detail.title">
+                        </div>
+                        <div class="content_line">
+                            <div class="label">子标题</div>
+                            <input type="text" name="subtitle" v-model="detail.subtitle">
+                        </div>
+                        <div class="content_line">
+                            <div class="label">讲解专家<div class="require fr">*</div></div>
+                            <select v-model="detail.expert_id" name="expert_id" id="expert_select">
+                                <!--<option v-for="item in expert" :value="item.expert_id" :selected="{selected:item.expert_id=detail.expert_id}">{{ item.expert_name }}</option>-->
+                            </select>
+                        </div>
+                        <div class="content_line">
+                            <div class="label">节目视频<div class="require fr">*</div></div>
+                            <input id="videoId" name="video_upload_id" value="" v-model="detail.video_upload_id" hidden/>
+                            <button type="button" @click="uploadVideo" style="width:80px;margin:0;">上传视频</button>
+                            <input id="videoName" name="video_upload_name" value="" v-model="detail.video_upload_name" disabled/>
+                        </div>
+                        <div class="content_line">
+                            <div class="label">摘要</div>
+                            <input type="text" name="intro" v-model="detail.intro">
+                        </div>
+                        <div class="content_line">
+                            <div class="label img-label">封面<div class="require fr">*</div></div>
+                            <a class="img-save" :href="detail.image" target="_blank" v-if="detail.image!==''">
+                                <img :src="detail.image">
+                            </a>
+                            <button type="button" id="selectPicBtn" @click="selectPic" style="margin:0">选择</button>
+                            <label style="margin-left:10px">图片大小260x170或26:17</label>
+                        </div>
+                        {% endverbatim %}
+                        <div class="content_line">
+                            <div class="label">内容</div>
+                            <div class="edit-area">
+                                {{ form.content }}
+                            </div>
+                        </div>
+                        {% verbatim %}
+                        <div class="content_line">
+                            <div class="label">发布用户</div>
+                            <input type="text" name="publish_user_name" v-model="detail.publish_user_name" disabled style="width: 180px;">
+                        </div>
+                        <div class="content_line">
+                            <div class="label">发布时间</div>
+                            <input id="publishTime" class="laydate-icon" name="publish_time" placeholder="请选择" v-model="detail.publish_time">
+                        </div>
+                    </form>
+                </div>
+                <div class="content_btn">
+                    <div><button @click="previewDraft">预览</button></div>
+                    <div><button @click="saveDraft">确定</button></div>
+                    <div><button class="cancel" @click="cancelDraft">取消</button></div>
+                </div>
+            </div>
+
+            <form id="picForm" style="display: none;">
+                <div class="content_layer">
+                    <div class="local_area"></div>
+                    <div>
+                        <a href="javascript:;" class="file"><i class="fa fa-plus-circle"></i> 本地图片
+                            <input type="file" name="file" accept="image/jpg,image/jpeg,image/png,image/bmp,image/gif" onchange="uploadLocalPic()">
+                        </a>
+                    </div>
+                    <div class="content_img" v-for="img in img_in_content">
+                        <a :href="img" target="_blank">
+                            <img class="pic_pre" :src="img">
+                        </a>
+                        <i class="fa fa-circle-thin fa-2x" onclick="selectOnePic(this)"></i>
+                    </div>
+                </div>
+             </form>
+        </div>
+        {% endverbatim %}
+    </div>
+
+{% endblock %}
+{% block js %}
+    <script src="/static/contrib/js/jquery.searchableSelect.js"></script>
+    <script src="/static/contrib/js/bootstrap-treeview.min.js"></script>
+    <script src="/static/laydate/laydate.js"></script>
+    <script>document.write( " <script src='/static/manage/js/manage_draft.js?rnd= " + Math.random() + " '></s" + "cript> " );</script>
+{% endblock %}

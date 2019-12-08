@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <title>湖北省教育资源公共服务平台</title>
+    <link rel="stylesheet" href="/static/manage/css/manage.css" />
+{#    <style>#}
+{#        video::-webkit-media-controls-enclosure {#}
+{#            overflow:hidden;#}
+{#        }#}
+{#        video::-webkit-media-controls-panel {#}
+{#            width: calc(100% + 30px);#}
+{#        }#}
+{#        video::-internal-media-controls-download-button {#}
+{#            display:none;#}
+{#        }#}
+{#    </style>#}
+</head>
+<body>
+    <div class="hide" id="article_id">{{ article_id }}</div>
+    <div class="main-content">
+        {% verbatim %}
+        <div id="main" v-cloak>
+            <div class="content">
+                <div class="content_head">
+                    节目预览
+                </div>
+                <div class="detail">
+                    <h1>{{ detail.title }}</h1>
+                    <h2>{{ detail.subtitle }}</h2>
+                    <h3>{{ detail.publish_time.substring(0,10) }}&nbsp;&nbsp;&nbsp;&nbsp;讲解专家：{{ detail.expert_name }}</h3>
+                    <div class="detail_video">
+                        <video id="video" :src="detail.video_path" width="600" height="400" controls controlsList="nodownload">
+                            您的浏览器不支持 video 标签。
+                        </video>
+                    </div>
+                    <div>{{{ detail.content }}}</div>
+                </div>
+            </div>
+        </div>
+        {% endverbatim %}
+    </div>
+    <script src="/static/contrib/js/jquery.min.js"></script>
+    <script src="/static/contrib/js/vue.js"></script>
+    <script>document.write( " <script src='/static/manage/js/manage_preview.js?rnd= " + Math.random() + " '></s" + "cript> " );</script>
+</body>
+</html>

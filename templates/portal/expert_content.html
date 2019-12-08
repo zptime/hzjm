@@ -1,0 +1,57 @@
+{% extends "portal/base.html" %}
+{% block css %}
+{% endblock %}
+{% block content %}
+    {% verbatim %}
+    <div id="main" v-cloak>
+        <div class="expert">
+			<img :src="expert.expert_image">
+			<div class="expert_right fr">
+				<p>{{ expert.expert_name }}</p>
+                <textarea id="textarea" disabled>{{ expert.expert_intro }}</textarea>
+			</div>
+			<div style="clear:both"></div>
+        </div>
+		<div style="clear:both"></div>
+		<div class="expert_section">
+			<hr class="expert_section_left" width=30 color=#dcdcdc SIZE=1 noShade>专家节目<hr class="expert_section_right" width=30 color=#dcdcdc SIZE=1 noShade>
+		</div>
+	 	<div class="article">
+            <div class="row">
+                <div class="block fl" v-for="row in article.rows">
+                    <div class="mouse" @mouseover="imageShow" @mouseout="imageHidden">
+                        <a :href="'/page/hzjm/content?articleid='+row.id" target="_blank">
+                            <img class="image fl" :src="row.image">
+                        </a>
+                        <a class="play_video" :href="'/page/hzjm/content?articleid='+row.id" target="_blank">
+                            <div class="play"></div>
+                            <img class="video" src="/static/portal/img/play.png"/>
+                        </a>
+                    </div>
+                    <div class="text fl border-shadow">
+                        <a :href="'/page/hzjm/content?articleid='+row.id" target="_blank">
+                            <h4>{{ row.title }}</h4>
+                        </a>
+                        <div class="text_intro">
+                            <p class="author fl">{{ row.expert_name }}</p>
+                            <p class="date fr">{{ row.publish_time.substring(0,10) }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page">
+                <a href="javascript:;" @click="queryArticleList(1)">首页</a>
+                <a href="javascript:;" v-if="current_page!=1" @click="queryArticleList(current_page-1)">上一页</a>
+                {{ current_page }}/{{ article.total }}
+                <a href="javascript:;" v-if="current_page!=article.total" @click="queryArticleList(current_page+1)">下一页</a>
+                <a href="javascript:;" @click="queryArticleList(article.total)">末页</a>
+                跳转<input id="page" type="text" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" >
+                <span>共{{ article.total }}页{{ article.records }}条</span>
+            </div>
+        </div>
+    </div>
+    {% endverbatim %}
+{% endblock %}
+{% block js %}
+    <script>document.write( " <script src='/static/portal/js/expert_content.js?rnd= " + Math.random() + " '></s" + "cript> " );</script>
+{% endblock %}

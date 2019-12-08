@@ -1,0 +1,43 @@
+{% extends "portal/base.html" %}
+{% block css %}
+{% endblock %}
+{% block content %}
+    <div class="banner">
+        <img src="/static/portal/img/banner.png">
+    </div>
+    <div class="time"><p>湖北电视教育频道 17:35（每日一期）</p></div>
+    {% verbatim %}
+    <div id="main" v-cloak>
+        <div class="article">
+            <div class="expert_list">
+                <div class="expert_block fl" v-for="expert in expert.expert_list">
+                    <img class="expert_img" :src="expert.expert_image">
+                    <div class="expert_text fr">
+                       	<div>
+						   	<p class="name fl">{{ expert.expert_name }}</p>
+						   	<a class="search_channel fr" :href="'/page/hzjm/expert_content?expert_id='+expert.expert_id" target="_blank">查看节目></a>
+					   	</div>
+						<div class="expert_detail">
+                            <p>
+                                {{ expert.expert_intro }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page">
+                <a href="javascript:;" @click="queryExpertList(1)">首页</a>
+                <a href="javascript:;" v-if="current_page!=1" @click="queryExpertList(current_page-1)">上一页</a>
+                {{ current_page }}/{{ expert.max_page }}
+                <a href="javascript:;" v-if="current_page!=expert.max_page" @click="queryExpertList(current_page+1)">下一页</a>
+                <a href="javascript:;" @click="queryExpertList(expert.max_page)">末页</a>
+                跳转<input id="page" type="text" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" >
+                <span>共{{ expert.max_page }}页{{ expert.total }}条</span>
+            </div>
+        </div>
+    </div>
+    {% endverbatim %}
+{% endblock %}
+{% block js %}
+    <script>document.write( " <script src='/static/portal/js/expert.js?rnd= " + Math.random() + " '></s" + "cript> " );</script>
+{% endblock %}

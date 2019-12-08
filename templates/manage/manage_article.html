@@ -1,0 +1,27 @@
+{% extends "manage/list.html" %}
+{% block css %}
+{% endblock %}
+{% block main-right %}
+    {% verbatim %}
+    <div id="main" v-cloak>
+        <div class="tool">
+        <div class="tool_btn fl">
+            <button @click="articleAdd">新增</button>
+            <button :class="{disabled: idList.length===0}" :disabled="idList.length===0" @click="articleDelete">删除</button>
+        </div>
+        <div class="tool_filter fr">
+            <input id="titleKey" type="text" placeholder="搜索标题" v-model="title_key">
+            <button @click="tableFilter">搜索</button>
+        </div>
+    </div>
+        <div class="total"><p>共计节目数：<span id="total_record"></span>&nbsp;&nbsp;&nbsp;&nbsp;已选节目数：<span id="total_choose">{{ idList.length }}</span></p></div>
+        <div class="grid">
+            <table id="grid"></table>
+            <div id="pager"></div>
+        </div>
+    </div>
+    {% endverbatim %}
+{% endblock %}
+{% block js %}
+    <script>document.write( " <script src='/static/manage/js/manage_article.js?rnd= " + Math.random() + " '></s" + "cript> " );</script>
+{% endblock %}

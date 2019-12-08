@@ -1,0 +1,1168 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.0 - 20180116
+  title: 汉字解密网站API
+  
+tags:
+  - name: Account
+    description: 用户
+  - name: Common
+    description: 通用
+  - name: Portal
+    description: 门户展现
+  - name: Manage-Article
+    description: 门户管理 - 文章
+  - name: Manage-Expert
+    description: 门户管理 - 专家
+  - name: Manage-Other
+    description: 门户管理 - 轮播图、快速功能链接    
+  - name: Help
+    description: 帮助提示  
+    
+paths:
+
+  /api/manage/user/login:
+    post:
+      tags:
+        - Account
+      description: 登录
+      parameters:
+        - name: username 
+          in: formData
+          description: 用户名
+          type: string
+          required: true
+        - name: password
+          in: formData
+          description: 密码
+          type: string
+          required: true          
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                $ref: '#/definitions/user'
+
+  /api/manage/user/logout:
+    get:
+      tags:
+        - Account
+      description: 用户退出
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/result'
+
+  /api/manage/user/changepw:
+    post:
+      tags:
+      - Account
+      description: 用户修改自己的密码 <管理员+老师>
+      parameters:
+        - name: oldpw
+          in: formData
+          description: 原密码
+          type: string
+          required: true           
+        - name: newpw
+          in: formData
+          description: 新密码
+          type: string
+          required: true 
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/result'
+
+  /api/common/tmppic/add:
+    post:
+      tags:
+      - Common
+      description: 上传一张临时图片
+      parameters:
+        - name: file 
+          in: formData
+          description: 图片文件
+          type: file
+          required: true   
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: 临时图片的地址
+                  id:
+                    type: string
+                    description: 临时图片的ID编号 
+                    
+
+  /api/hzjm/article/search:
+    post:
+      tags:
+      - Portal
+      description: 搜索文章
+      parameters:
+        - name: key
+          in: formData
+          description: 文章搜索关键字（标题、专家）
+        - name: year
+          in: formData
+          description: 发文年份(暂不支持)
+          type: string
+          required: false
+        - name: month
+          in: formData
+          description: 发文月份(暂不支持)
+          type: string
+          required: false
+        - name: expert_id
+          in: formData
+          description: 专家ID(暂不支持)
+          type: string
+          required: false
+        - name: page
+          in: formData
+          description: 看第几页
+          type: string
+          required: true
+        - name: rows
+          in: formData
+          description: 每页几条数据
+          type: string
+          required: true
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                type: object
+                properties:
+                  page:
+                    type: string
+                    description: 当前这是第几页
+                  total:
+                    type: string
+                    description: 总共有多少页
+                  records:
+                    type: string
+                    description: 总共多少记录
+                  rows:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: 文章编号
+                        title:
+                          type: string
+                          description: 文章标题
+                        publish_user_id:
+                          type: string
+                          description: 发布用户ID编号
+                        publish_user_name:
+                          type: string
+                          description: 发布用户名称
+                        intro:
+                          type: string
+                          description: 文章摘要
+                        click:
+                          type: string
+                          description: 点击次数
+                        publish_time:
+                          type: string
+                          description: 发布时间
+                        is_new:
+                          type: string
+                          description: 是不是最新文章
+                        image:
+                          type: string
+                          description: 封面
+                        expert_id:
+                          type: string
+                          description: 专家ID
+                        expert_name:
+                          type: string
+                          description: 专家名称
+                        author:
+                          type: string
+                          description: 作者
+
+
+  /api/hzjm/article/list:
+    post:
+      tags:
+      - Portal
+      description: 获取审核通过的文章
+      parameters:
+        - name: page
+          in: formData
+          description: 看第几页
+          type: string
+          required: true
+        - name: rows
+          in: formData
+          description: 每页几条数据
+          type: string
+          required: true
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                type: object
+                properties:
+                  page:
+                    type: string
+                    description: 当前这是第几页
+                  total:
+                    type: string
+                    description: 总共有多少页
+                  records:
+                    type: string
+                    description: 每页几条数据
+                  rows:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: 文章编号
+                        title:
+                          type: string
+                          description: 文章标题
+                        publish_user_id:
+                          type: string
+                          description: 发布用户ID编号
+                        publish_user_name:
+                          type: string
+                          description: 发布用户名称
+                        intro:
+                          type: string
+                          description: 文章摘要
+                        image:
+                          type: string
+                          description: 文章封面
+                        click:
+                          type: string
+                          description: 点击次数
+                        publish_time:
+                          type: string
+                          description: 发布时间
+                        is_new:
+                          type: string
+                          description: 是不是最新文章
+                        is_top:
+                          type: string
+                          description: 是不是置顶文章
+
+  /api/hzjm/article/get:
+    post:
+      tags:
+      - Portal
+      description: 获取某一文章正文
+      parameters:
+        - name: id
+          in: formData
+          description: 文章ID
+          type: string
+          required: true
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                $ref: "#/definitions/article_content"
+
+  /api/hzjm/article/datelist:
+    post:
+      tags:
+      - Portal
+      description: 发文日历
+      parameters:
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                type: object
+                properties:
+                  yearlist:
+                    type: array
+                    items:  
+                      type: object
+                      properties:
+                        year:
+                          type: string
+                          description: 年
+                        monthlist:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              month:
+                                type: string
+                                description: 月
+                              has_article:
+                                type: string
+                                description: 当月是否有发文（0：无，1：有）
+
+  /api/hzjm/expert/list:
+    post:
+      tags:
+      - Portal
+      description: 专家列表
+      parameters:
+        - name: expert_id
+          in: formData
+          description: 专家ID
+          type: string
+          required: false
+        - name: page
+          in: formData
+          description: 看第几页
+          type: string
+          required: true
+        - name: rows
+          in: formData
+          description: 每页几条数据
+          type: string
+          required: true
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                type: object
+                properties:
+                  page:
+                    type: string
+                    description: 当前这是第几页
+                  total:
+                    type: string
+                    description: 总共有多少页
+                  records:
+                    type: string
+                    description: 总共多少记录
+                  expertlist:
+                    type: array
+                    items:
+                      $ref: "#/definitions/expert_content"
+
+  /api/common/sys/list:
+    get:
+      tags:
+      - Common
+      description: 获取系统配置
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                type: array
+                items:
+                  type: object
+                  properties:
+                   id:
+                      type: string  
+                      description: 配置ID                  
+                   key:
+                      type: string  
+                      description: 配置键                  
+                   value:
+                      type: string  
+                      description: 配置参数值
+                   name:
+                      type: string  
+                      description: 名称               
+
+  /api/common/sys/edit:
+    post:
+      tags:
+      - Common
+      description: 更新系统配置
+      parameters:
+        - name: id 
+          in: formData
+          description: ID
+          type: string
+          required: true   
+        - name: value
+          in: formData
+          description: 配置参数值
+          type: string
+          required: true            
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/result'
+
+
+  /api/manage/article/list:
+    post:
+      tags:
+      - Manage-Article
+      description: 
+        获取所有文章
+        管理员可以看到所有的文章，老师只能看到自己发布的文章
+      parameters:
+        - name: title_key
+          in: formData
+          description: 过滤：标题关键字（空或者''表示全部）
+          type: string
+          required: false         
+        - name: expert_id
+          in: formData
+          description: 专家ID
+          type: string
+          required: false
+        - name: page
+          in: formData
+          description: 看第几页
+          type: string
+          required: true
+        - name: rows
+          in: formData
+          description: 每页几条数据
+          type: string
+          required: true  
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                type: object
+                properties:
+                  page: 
+                    type: string
+                    description: 当前这是第几页 
+                  total: 
+                    type: string
+                    description: 总共有多少页
+                  records: 
+                    type: string
+                    description: 总计多少记录 
+                  rows:  
+                    type: array
+                    items:  
+                      type: object
+                      properties:
+                        id: 
+                          type: string
+                          description: 文章编号 
+                        title: 
+                          type: string
+                          description: 文章标题
+                        publish_user_id: 
+                          type: string
+                          description: 发布用户的ID编号                           
+                        publish_user_name: 
+                          type: string
+                          description: 发布用户名称       
+                        click: 
+                          type: string
+                          description: 点击次数 
+                        publish_time: 
+                          type: string
+                          description: 发布时间 
+                        admit_state: 
+                          type: string
+                          description: 审核状态                           
+                        admit_user_id: 
+                          type: string
+                          description: 审核者的ID 
+                        admit_user_name: 
+                          type: string
+                          description: 审核者的姓名   
+                        admit_time: 
+                          type: string
+                          description: 审核时间 
+                        push_channel: 
+                          type: string
+                          description: 已推送的栏目（用逗号分隔）
+                        is_top: 
+                          type: string
+                          description: 是否置顶   
+                        channel: 
+                          type: string
+                          description: 频道
+                        category: 
+                          type: string
+                          description: 栏目
+                        is_push_show_cover:
+                          type: string
+                          description: 是否显示走马灯
+
+
+  /api/manage/article/get:
+    post:
+      tags:
+      - Manage-Article
+      description: 获取某一文章正文
+      parameters:
+        - name: id 
+          in: formData
+          description: 文章ID
+          type: string
+          required: true       
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                $ref: "#/definitions/article_content"
+                
+  # 不同的栏目类型发文时，填写到下面不同的字段中：
+  # 普通型：一一对应
+  # 人物型：title（人名） -> title
+  #         category -> category
+  #         avatar（头像） - > image 
+  #         intro（岗位或基本简介） -> intro
+  #         content（人物事迹或者详情） -> content
+  # 照片墙型：title（照片名称） -> title
+  #           image（照片） -> image 
+  #           intro（照片描述） -> intro
+  #           publish_time -> publish_time
+  # 刊物型： title（刊物名称） -> title 
+  #          intro（刊物介绍）-> intro
+  #          content（刊物图片列表） -> content
+  #          publish_time -> publish_time
+  #
+  /api/manage/article/add:
+    post:
+      tags:
+      - Manage-Article
+      description: 增加一篇文章<老师+管理员>
+      parameters:
+        - name: title
+          in: formData
+          description: 文章标题
+          type: string
+          required: true   
+        - name: subtitle
+          in: formData
+          description: 文章子标题
+          type: string
+          required: false
+        - name: image
+          in: formData
+          description: 文章封面
+          type: file
+          required: false  
+        - name: intro
+          in: formData
+          description: 文章摘要
+          type: string
+          required: false
+        - name: video_upload_id
+          in: formData
+          description: 上传的视频ID
+          type: string
+          required: false
+        - name: expert_id
+          in: formData
+          description: 专家ID
+          type: string
+          required: false
+        - name: content
+          in: formData
+          description: 正文部分（富文本）
+          type: string
+          required: false   
+        - name: publish_time
+          in: formData
+          description: 发布时间（可手动选择，精确到秒）
+          type: string
+          required: false
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/result'
+                  
+  /api/manage/article/edit:
+    post:
+      tags:
+      - Manage-Article
+      description: 修改一篇文章<老师+管理员>
+      parameters:
+        - name: id
+          in: formData
+          description: 文章ID
+          type: string
+          required: true       
+        - name: title
+          in: formData
+          description: 文章标题
+          type: string
+          required: true   
+        - name: subtitle
+          in: formData
+          description: 文章子标题
+          type: string
+          required: false
+        - name: video_upload_id
+          in: formData
+          description: 上传的视频ID
+          type: string
+          required: false
+        - name: expert_id
+          in: formData
+          description: 专家ID
+          type: string
+          required: false
+        - name: image
+          in: formData
+          description: 文章封面
+          type: file
+          required: false  
+        - name: is_delete_image
+          in: formData
+          description: 是否清除文章封面
+          type: string
+          required: false           
+        - name: intro
+          in: formData
+          description: 文章摘要
+          type: string
+          required: false
+        - name: content
+          in: formData
+          description: 正文部分（富文本）
+          type: string
+          required: false   
+        - name: publish_time
+          in: formData
+          description: 发布时间（可手动选择，精确到秒）
+          type: string
+          required: false
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/result'
+
+
+  /api/manage/article/delete:
+    post:
+      tags:
+      - Manage-Article
+      description: 删除多篇文章 <管理员+老师>
+      parameters:
+        - name: id_list # 文章的ID号列表，用逗号分隔
+          in: formData
+          description: 文章的ID号列表
+          type: string
+          required: true   
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/result'
+
+
+  /api/manage/expert/list:
+    post:
+      tags:
+      - Manage-Expert
+      description:
+        专家列表
+      parameters:
+        - name: key
+          in: formData
+          description: 搜索关键字，目前只支持专家姓名搜索
+          type: string
+          required: false
+        - name: page
+          in: formData
+          description: 看第几页
+          type: string
+          required: false
+        - name: rows
+          in: formData
+          description: 每页几条数据
+          type: string
+          required: false
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                type: object
+                properties:
+                  cur_page:
+                    type: string
+                    description: 当前这是第几页
+                  max_page:
+                    type: string
+                    description: 总共有多少页
+                  total:
+                    type: string
+                    description: 总计多少记录
+                  expert_list:
+                    type: array
+                    items:
+                      $ref: "#/definitions/expert_content"
+
+
+  /api/manage/expert/get:
+    post:
+      tags:
+      - Manage-Expert
+      description: 获取一名专家信息
+      parameters:
+        - name: expert_id
+          in: formData
+          description: 专家ID
+          type: string
+          required: true
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                $ref: "#/definitions/expert_content"
+
+  /api/manage/expert/add:
+    post:
+      tags:
+      - Manage-Expert
+      description: 增加一名专家
+      parameters:
+        - name: expert_name
+          in: formData
+          description: 专家姓名
+          type: string
+          required: true
+        - name: expert_sortorder
+          in: formData
+          description: 专家排序
+          type: string
+          required: false
+        - name: expert_image
+          in: formData
+          description: 专家头像
+          type: file
+          required: false
+        - name: expert_intro
+          in: formData
+          description: 专家介绍
+          type: string
+          required: false
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/result'
+
+  /api/manage/expert/edit:
+    post:
+      tags:
+      - Manage-Expert
+      description: 修改一名专家
+      parameters:
+        - name: expert_id
+          in: formData
+          description: 专家ID
+          type: string
+          required: true
+        - name: expert_name
+          in: formData
+          description: 专家姓名
+          type: string
+          required: true
+        - name: expert_sortorder
+          in: formData
+          description: 专家排序
+          type: string
+          required: false
+        - name: expert_image
+          in: formData
+          description: 专家头像
+          type: file
+          required: false
+        - name: expert_intro
+          in: formData
+          description: 专家介绍
+          type: string
+          required: false
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/result'
+
+
+  /api/manage/expert/delete:
+    post:
+      tags:
+      - Manage-Expert
+      description: 删除多名专家
+      parameters:
+        - name: id_list
+          in: formData
+          description: 专家的ID号列表,使用英文逗号隔开
+          type: string
+          required: true
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            $ref: '#/definitions/result'
+
+  /api/help/const/list:
+    get:
+      tags:
+      - Help
+      description: 获取所有后台定义的常量
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: 代号
+                    value:
+                      type: string
+                      description: 值
+                    intro:
+                      type: string
+                      description: 描述           
+
+  /api/help/errcode/list:
+    get:
+      tags:
+      - Help
+      description: 获取所有后台定义的错误码
+      responses:
+        "200":
+          description: 成功结果
+          schema:
+            type: object
+            properties:
+              c:
+                type: integer
+              m:
+                type: string
+              d:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                      description: 代号
+                    value:
+                      type: string
+                      description: 值
+                    intro:
+                      type: string
+                      description: 描述  
+
+definitions:
+
+  result: 
+    description: 成功操作返回内容
+    type: object
+    properties:
+      c:
+        type: integer
+        description: 响应码
+      m:
+        type: string
+        description: 响应消息提示
+  
+
+  picture: 
+    description:  轮播图
+    type: object
+    properties:
+      id: 
+        type: string
+        description: 轮播图ID     
+      title:  
+        type: string
+        description: 轮播图标题
+      intro: 
+        type: string
+        description: 轮播图介绍
+      sort: 
+        type: string
+        description: 排序
+      image: 
+        type: string
+        description: 轮播图图片URL
+      link: 
+        type: string
+        description: 轮播图的点击链接URL
+      is_link_out_open: 
+        type: string
+        description: 是否新窗口打开        
+
+  quickfunc: 
+    description:  快速功能链接
+    type: object
+    properties:
+      id: 
+        type: string
+        description: 快速功能ID     
+      name:  
+        type: string
+        description: 快速功能名字
+      intro: 
+        type: string
+        description: 快速功能介绍
+      sort: 
+        type: string
+        description: 排序
+      image: 
+        type: string
+        description: 图片URL
+      link: 
+        type: string
+        description: 链接URL
+      is_link_out_open: 
+        type: string
+        description: 是否新窗口打开
+      is_active: 
+        type: string
+        description: 是否启用       
+
+  component: 
+    description: 基础组件
+    type: object
+    properties:
+      id: 
+        type: string
+        description: 组件ID编号 
+      key: 
+        type: string
+        description: 组件关键字
+      name: 
+        type: string
+        description: 组件名称
+      intro: 
+        type: string
+        description: 组件文字
+      image: 
+        type: string
+        description: 组件图片URL
+      link: 
+        type: string
+        description: 超链接
+      is_link_out_open:
+        type: string
+        description: 是否在新窗口打开链接      
+
+
+  article_content:  
+    description:  文章正文数据
+    type: object
+    properties:
+      id: 
+        type: string
+        description: 文章ID编号 
+      content: 
+        type: string
+        description: 文章正文
+      title: 
+        type: string
+        description: 文章标题
+      subtitle: 
+        type: string
+        description: 文章子标题        
+      publish_user_id: 
+        type: string
+        description: 发布用户ID      
+      publish_user_name: 
+        type: string
+        description: 发布用户名称       
+      image: 
+        type: string
+        description: 文章封面 
+      intro: 
+        type: string
+        description: 文章摘要
+      author: 
+        type: string
+        description: 作者         
+      click: 
+        type: string
+        description: 点击次数 
+      publish_time: 
+        type: string
+        description: 发布时间 
+      admit_state: 
+        type: string
+        description: 审核状态 
+      admit_user_id: 
+        type: string
+        description: 审核用户ID
+      admit_user_name: 
+        type: string
+        description: 审核用户名称  
+      admit_time: 
+        type: string
+        description: 审核通过时间      
+      is_top: 
+        type: string
+        description: 是否置顶
+      pre_article_id: 
+        type: string
+        description: 上一篇文章ID，如果没有则是空字符串
+      pre_article_title: 
+        type: string
+        description: 上一篇文章标题，如果没有则是空字符串
+      next_article_id: 
+        type: string
+        description: 下一篇文章ID，如果没有则是空字符串
+      next_article_title: 
+        type: string
+        description: 下一篇文章标题，如果没有则是空字符串
+      pdftotalpages:
+        type: integer
+        description: pdf文件总页数
+
+  expert_content:
+    description:  专家信息
+    type: object
+    properties:
+      expert_id:
+        type: string
+        description: 专家ID编号
+      expert_name:
+        type: string
+        description: 专家姓名
+      expert_sortorder:
+        type: string
+        description: 专家排序号
+      expert_article_num:
+        type: string
+        description: 专家排序号
+      expert_image:
+        type: string
+        description: 专家头像
+      expert_intro:
+        type: string
+        description: 专家简介
+
+  user: 
+    description: 用户
+    type: object
+    properties:
+      id:
+        type: string
+        description: ID
+      username:
+        type: string
+        description: 账号
+      realname: 
+        type: string
+        description: 姓名
+      role: 
+        type: string
+        description: 角色（管理员 or 老师 or 学生 or 其它）
+      mobile: 
+        type: string
+        description: 手机号  
+      intro: 
+        type: string
+        description: 介绍      
+      is_active: 
+        type: string
+        description: 是否激活        
+        
+        

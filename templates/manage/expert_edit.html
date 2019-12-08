@@ -1,0 +1,50 @@
+{% extends "manage/base.html" %}
+{% block css %}
+    {{ form.media }}
+{% endblock %}
+{% block content %}
+    <div class="main-content">
+        {% verbatim %}
+        <div id="main" v-cloak>
+            <div class="content">
+                <div class="content_head">
+                    <span v-if="detail.id===''">新增专家</span>
+                    <span v-else>修改专家</span>
+                </div>
+                <div class="content_body" style="margin:20px 0;border: 1px solid transparent;">
+                    <form enctype="multipart/form-data" id="dataForm">
+                        <div class="content_line">
+                            <div class="label">专家名字<div class="require fr">*</div></div>
+                            <input type="text" name="expert_name" v-model="detail.expert_name">
+                        </div>
+                        <div class="content_line">
+                            <div class="label">排序<div class="require fr">*</div></div>
+                            <input type="number" name="expert_sortorder" v-model="detail.expert_sortorder" value="100">
+                        </div>
+                        <div class="content_line">
+                            <div class="label img-label">照片<div class="require fr">*</div></div>
+                            <a class="img-save expert-save" :href="detail.expert_image" target="_blank" v-if="detail.expert_image!==''">
+                                <img :src="detail.expert_image">
+                            </a>
+                            <button type="button" @click="selectPic" style="margin:0">选择</button>
+                            <input style="width:200px;display: none;" type="file" class="image" name="expert_image" @change="pushImage" accept="image/*">
+                            <label style="margin-left:10px">图片大小100x120或5:6</label>
+                        </div>
+                        <div class="content_line">
+                            <div class="label">介绍</div>
+                            <textarea id="textarea" name="expert_intro" placeholder="请填写专家介绍..." v-model="detail.expert_intro"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="content_btn">
+                    <div><button @click="saveDraft">确定</button></div>
+                    <div><button class="cancel" @click="cancelDraft">取消</button></div>
+                </div>
+            </div>
+        </div>
+        {% endverbatim %}
+    </div>
+{% endblock %}
+{% block js %}
+    <script>document.write( " <script src='/static/manage/js/expert_edit.js?rnd= " + Math.random() + " '></s" + "cript> " );</script>
+{% endblock %}

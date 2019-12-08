@@ -1,0 +1,26 @@
+{% extends "portal/base.html" %}
+{% block css %}
+{% endblock %}
+{% block content %}
+    <div class="hide" id="article_id">{{ article_id }}</div>
+    {% verbatim %}
+    <div id="main" v-cloak>
+        <div class="article">
+            <div class="detail">
+                <h1>{{ detail.title }}</h1>
+                <h2>{{ detail.subtitle }}</h2>
+                <h3>{{ detail.publish_time.substring(0,10) }}&nbsp;&nbsp;&nbsp;&nbsp;讲解专家：{{ detail.expert_name }}</h3>
+                <div class="detail_video">
+                    <video :src="detail.video_path" width="600" height="400" controls controlsList="nodownload">
+                        您的浏览器不支持 video 标签。
+                    </video>
+                </div>
+                <div>{{{ detail.content }}}</div>
+            </div>
+        </div>
+    </div>
+    {% endverbatim %}
+{% endblock %}
+{% block js %}
+    <script>document.write( " <script src='/static/portal/js/content.js?rnd= " + Math.random() + " '></s" + "cript> " );</script>
+{% endblock %}

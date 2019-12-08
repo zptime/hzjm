@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/static/upload_resumable/css/resumable.css"/>
+    <style>
+        body{
+            font-family:"Microsoft Yahei","Droid Sans Fallback","Arial","Helvetica","sans-serif","宋体";
+            font-size:14px;
+            outline: none;
+            color: #666;
+        }
+        .re-upload .upload-form .upload-core-box .upload-fieldset{
+            height: 230px;
+        }
+        .re-upload .upload-addfile-bottom{
+            right: 30px;
+        }
+        .btn-medium{
+            width: 100px;
+            height: 30px;
+            color: #fff;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 4px;
+            background:#308ce3;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="re-upload" id="reUpload"></div>
+</body>
+    <script src="/static/contrib/js/jquery.min.js"></script>
+    <script src="/static/layer/layer.js"></script>
+    <script src="/static/upload_resumable/js/spark-md5.js"></script>
+    <script src="/static/upload_resumable/js/django-resumable.js"></script>
+    <script src="/static/upload_resumable/js/resumable.js"></script>
+<script>
+    var files_arr = [];
+    initDjangoResumable();
+    function initDjangoResumable() {
+        "use strict";
+        var dj;
+        if (new Resumable().support) {
+            dj = new DjangoResumable({
+                xhrfile:{
+                    beforeStart: function () {
+                        return true;
+                    },
+                    success: function (data) {
+                        if (data.c == 0){
+                            for(var i=0;i<data.d.length;i++){
+                                files_arr.push({
+                                    "id":data.d[i].id,
+                                    "name":data.d[i].name,
+                                    "url":data.d[i].url
+                                });
+                            }
+                        }
+                    },
+                    confirm: function(files){
+                        parent.$('#videoId').val(files_arr[0].id);
+                        parent.$('#videoName').val(files_arr[0].name);
+                        parent.layer.closeAll();
+                    },
+                    cancel: function(){
+                        parent.layer.closeAll();
+                    }
+                },
+                view:{
+                    container: document.getElementById('reUpload'),
+                    addBtn: true,
+                    startBtn: true,
+                    dragable: true
+                },
+                resumableOptions:{
+                    maxFiles:1,
+                    fileType:['mp4']
+                }
+            });
+            window.mydjResumable = dj;
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,55 @@
+{% extends "portal/base.html" %}
+{% block css %}
+{% endblock %}
+{% block content %}
+    <div class="banner">
+        <img src="/static/portal/img/banner.png">
+    </div>
+    <div class="time"><p>湖北电视教育频道 17:35（每日一期）</p></div>
+    {% verbatim %}
+    <div id="main" v-cloak>
+        <div class="theme">
+            <h3>汉字解密</h3>
+            <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;《汉字解密》由湖北广播电视台教育频道策划推出。每天17:35分播出，每期10分钟，这是全国电视唯一一档文字类栏目，以“追寻文字源头”为切入点，用创新的“解密+动画+书法+诗词”组合手法，传递中国文字的时代价值，吸引了全国千百万师生关注。</p>
+            <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;《汉字解密》以每天一期的节奏陪伴观众，已推出《传统节气》、《百家姓》、《十二生肖》、《农耕田野》等50余个专题。《光明日报》刊发专版文章，点赞节目“创造性传承与发展了优秀传统文化”；在国家新闻出版广电总局举办的“迎接十九大优秀少儿节目”评选中，《汉字解密》荣获全国一等奖。</p>
+            <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 栏目官方微信公众号（HB8732）、今日头条、新浪微博、长江云APP、湖北网络广播电视台同步更新，搜索“汉字解密”即可收看。</p>
+        </div>
+        <div class="article">
+            <div class="row">
+                <div class="block fl" v-for="row in article.rows">
+                    <div class="mouse" @mouseover="imageShow" @mouseout="imageHidden">
+                        <a :href="'/page/hzjm/content?articleid='+row.id" target="_blank">
+                            <img class="image fl" :src="row.image">
+                        </a>
+                        <a class="play_video" :href="'/page/hzjm/content?articleid='+row.id" target="_blank">
+                            <div class="play"></div>
+                            <img class="video" src="/static/portal/img/play.png"/>
+                        </a>
+                    </div>
+                    <div class="text fl">
+                        <a :href="'/page/hzjm/content?articleid='+row.id" target="_blank">
+                            <h4>{{ row.title }}</h4>
+                        </a>
+                        <div class="text_intro">
+                            <p class="author fl">{{ row.expert_name }}</p>
+                            <p class="date fr">{{ row.publish_time.substring(0,10) }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page">
+                <a href="javascript:;" @click="queryArticleList(1)">首页</a>
+                <a href="javascript:;" v-if="current_page!=1" @click="queryArticleList(current_page-1)">上一页</a>
+                {{ current_page }}/{{ article.total }}
+                <a href="javascript:;" v-if="current_page!=article.total" @click="queryArticleList(current_page+1)">下一页</a>
+                <a href="javascript:;" @click="queryArticleList(article.total)">末页</a>
+                跳转<input id="page" type="text" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" >
+                <span>共{{ article.total }}页{{ article.records }}条</span>
+            </div>
+        </div>
+    </div>
+    {% endverbatim %}
+{% endblock %}
+{% block js %}
+    <script>document.write( " <script src='/static/portal/js/list.js?rnd= " + Math.random() + " '></s" + "cript> " );</script>
+{% endblock %}

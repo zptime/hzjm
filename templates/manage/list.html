@@ -1,0 +1,29 @@
+{% extends "manage/base.html" %}
+{% block css %}
+{% endblock %}
+{% block content %}
+    <div class="main">
+        <div class="main_left">
+            <ul>
+                <li id="program">
+                    <a class="left_nav_block" href="/page/manage/article/program">节目管理</a>
+                </li>
+                <li id="expert">
+                    <a class="left_nav_block" href="/page/manage/article/expert">专家管理</a>
+                </li>
+{#                <li id="about">#}
+{#                    <a class="left_nav_block" href="/page/manage/article/program">关于我们</a>#}
+{#                </li>#}
+{#                <li id="administrator">#}
+{#                    <a class="left_nav_block" href="/page/manage/article/program">管理员</a>#}
+{#                </li>#}
+            </ul>
+        </div>
+        <div class="main_right">
+            {% block main-right %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+{% endblock %}
