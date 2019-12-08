@@ -11,7 +11,7 @@ Pillow==3.4.2
 gunicorn==19.6.0
 docopt==0.6.2
 django-chunked-upload==1.1.1
-requests==2.9.1
+requests==2.20.0
 django-cas-ng==3.5.6
 boto==2.46.1
 filechunkio==1.8
